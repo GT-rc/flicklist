@@ -5,7 +5,7 @@ class Index(webapp2.RequestHandler):
 
     def getRandomMovie(self):
 
-        movie_list = ["The Hitchhiker's Guide to the Galaxy", "MegaMind", "The Wizard of Oz", "Star Wars", "Harry Potter"]
+        movie_list = ["The Big Lebowski", "The Hitchhiker's Guide to the Galaxy", "MegaMind", "The Wizard of Oz", "Star Wars", "Harry Potter"]
 
         movie = movie_list[random.randrange(len(movie_list))]
 
@@ -19,12 +19,12 @@ class Index(webapp2.RequestHandler):
         content = "<h1>Movie of the Day</h1>"
         content += "<p>" + movie + "</p>"
 
-        content_next = "<h1>Movie for Tommorrow</h1>"
-        content_next += "<p>{movie_a}".format(movie_a=self.getRandomMovie())
+        content += "<h1>Movie for Tommorrow</h1>"
+        content += "<p>{movie_a}</p>".format(movie_a=self.getRandomMovie())
 
 
         self.response.write(content)
-        self.response.write(content_next)
+
 
 app = webapp2.WSGIApplication([
     ('/', Index)
