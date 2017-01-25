@@ -39,16 +39,21 @@ class Index(webapp2.RequestHandler):
         </form>
         """
 
-        # TODO 1
-        # Include another form so the user can "cross off" a movie from their list.
+        cross_form = """
+        <form action="/cross" method="post">
+            <label>
+                I want to remove
+                <select name="crossed-off-movie">
+                    <option value="Star Wars">Star Wars</option>
+                    <option value="Minions">Minions</option>
+                    <option value="Freaky Friday">Freaky Friday</option>
+                    <option value="Highlander">Highlander</option>
+            </label>
+            <input type="submit" value="Cross It Off"/>
+        </form>
+        """
 
-
-        # TODO 4 (Extra Credit)
-        # modify your form to use a dropdown (<select>) instead a
-        # text box (<input type="text"/>)
-
-
-        content = page_header + edit_header + add_form + page_footer
+        content = page_header + edit_header + add_form + cross_form + page_footer
         self.response.write(content)
 
 
@@ -73,6 +78,16 @@ class AddMovie(webapp2.RequestHandler):
 # Create a new RequestHandler class called CrossOffMovie, to receive and
 # handle the request from your 'cross-off' form. The user should see a message like:
 # "Star Wars has been crossed off your watchlist".
+class CrossOffMovie(webapp2.RequestHandler):
+    """Handles requests for '/cross'"""
+    def post(self):
+
+        crossed_off = self.request.get("crossed-off-movie")
+
+        message = "<strike>" + crossed_off + "</strike>" + " has been removed from your watchlist."
+        content = page_header + "<p>" + message + "</p>" + page_footer
+
+        self.response.write(content)
 
 
 
@@ -80,5 +95,6 @@ class AddMovie(webapp2.RequestHandler):
 # Include a route for your cross-off handler, by adding another tuple to the list below.
 app = webapp2.WSGIApplication([
     ('/', Index),
-    ('/add', AddMovie)
+    ('/add', AddMovie),
+    ('/cross', CrossOffMovie)
 ], debug=True)
